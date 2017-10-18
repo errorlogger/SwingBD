@@ -18,6 +18,7 @@ public class StudentInternalFrame extends javax.swing.JInternalFrame {
     private Student std ;
     private StudentDAO dao;
     private Connection cn;
+    private DefaultListModel modelList;
     
     public StudentInternalFrame() throws SQLException {
         initComponents();
@@ -37,7 +38,7 @@ public class StudentInternalFrame extends javax.swing.JInternalFrame {
 
     private void initList() throws SQLException{
         
-        DefaultListModel modelList = new DefaultListModel();
+        modelList = new DefaultListModel();
         
         List<Student> data = dao.findAll().getAll();
         
@@ -45,6 +46,7 @@ public class StudentInternalFrame extends javax.swing.JInternalFrame {
             modelList.addElement(s);
         }
         jList.setModel(modelList);
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -94,6 +96,11 @@ public class StudentInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,7 +180,7 @@ public class StudentInternalFrame extends javax.swing.JInternalFrame {
             System.out.println(std.getPrenom()+std.getNom()+std.getAge()+std.getSex());
             
             int s = dao.save(std);
-            initList();
+            modelList.addElement(std);
             
         } catch (SQLException ex) {
             Logger.getLogger(StudentInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,6 +188,10 @@ public class StudentInternalFrame extends javax.swing.JInternalFrame {
         
             
     }//GEN-LAST:event_jSaveActionPerformed
+
+    private void jListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListMouseClicked
+        Student std = new Student ();
+    }//GEN-LAST:event_jListMouseClicked
 
     private int checkNumValue(String str){
         boolean ok = true;

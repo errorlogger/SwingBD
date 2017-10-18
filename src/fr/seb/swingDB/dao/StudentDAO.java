@@ -41,12 +41,17 @@ public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     //insert dans la base de données
     private int insert(Student st) throws SQLException{
         String sql ="INSERT INTO students (name,first_name,age, sex) VALUES(?,?,?,?)";
-        state = dbConnection.prepareStatement(sql/*,Statement.RETURN_GENERATED_KEYS*/);
+        state = dbConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);//pour recuperer l'id du dernier insert
         
         state.setString(1,st.getNom());
         state.setString(2,st.getPrenom());
         state.setInt(3,st.getAge());
         state.setString(4,String.valueOf(st.getSex()));
+        
+        ResultSet key = state.getGeneratedKeys();
+        if(key.next()){
+            st.setId(key.getInt("id"));
+        }
         
         return state.executeUpdate();
     }
@@ -132,8 +137,10 @@ public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     public List<Student> getAll() throws SQLException{
         List<Student> ls = new ArrayList<>();
         
-        while(!rst.isLast()){
+        if (rst.isBeforeFirst()){
+            while(!rst.isLast()){
             ls.add(this.getOne());
+            }
         }
         return ls;
     }
