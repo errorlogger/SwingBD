@@ -5,6 +5,9 @@
  */
 package fr.seb.swingDB.frame;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 
 /**
@@ -43,6 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
         LibrairyMenu = new javax.swing.JMenu();
         AuthorMenu = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -107,6 +111,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         LibrairyMenu.add(AuthorMenu);
+
+        jMenuItem1.setText("Ajout Etudiant");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        LibrairyMenu.add(jMenuItem1);
 
         menuBar.add(LibrairyMenu);
 
@@ -183,6 +195,14 @@ public class MainFrame extends javax.swing.JFrame {
         openWindow(new AuthorInternalFrame());
     }//GEN-LAST:event_AuthorMenuActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            openWindow(new StudentInternalFrame());
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,6 +251,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

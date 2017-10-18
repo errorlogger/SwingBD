@@ -85,4 +85,8 @@ public class Student {
         
         System.out.println(str);
     }
+    
+    public String toString(){
+        return this.prenom+" "+this.nom;
+    }
 }

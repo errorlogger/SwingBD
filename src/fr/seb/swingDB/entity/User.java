@@ -57,7 +57,7 @@ public class User {
 
     public User setId(int id) {
         this.id = id;
-        return this;
+        return this;// pour pouvoir faire syntaxe du genre User.setNom().setPrenom.setAge()
     }
 
     public User setName(String name) {

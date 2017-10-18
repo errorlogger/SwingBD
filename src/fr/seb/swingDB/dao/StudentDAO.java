@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import fr.seb.swingDB.entity.Student;
+import java.sql.Statement;
 
 public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     
@@ -40,7 +41,7 @@ public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     //insert dans la base de données
     private int insert(Student st) throws SQLException{
         String sql ="INSERT INTO students (name,first_name,age, sex) VALUES(?,?,?,?)";
-        state = dbConnection.prepareStatement(sql);
+        state = dbConnection.prepareStatement(sql/*,Statement.RETURN_GENERATED_KEYS*/);
         
         state.setString(1,st.getNom());
         state.setString(2,st.getPrenom());
@@ -88,6 +89,7 @@ public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     }
     
     
+    @Override
     public StudentDAO findAll () throws SQLException{
         
         String sql = "SELECT * FROM students ";
@@ -130,7 +132,7 @@ public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     public List<Student> getAll() throws SQLException{
         List<Student> ls = new ArrayList<>();
         
-        while(!rst.isAfterLast()){
+        while(!rst.isLast()){
             ls.add(this.getOne());
         }
         return ls;
@@ -140,8 +142,10 @@ public class StudentDAO implements DAOInterface <Student,StudentDAO,String> {
     public List<Map<String,String>> getAllAsArray() throws SQLException{
         List<Map<String,String>> lsMap = new ArrayList<>();
         
-        while(!rst.isAfterLast()){
+        if (rst.isBeforeFirst()){
+            while(!rst.isLast()){
             lsMap.add(this.getOneAsMap());
+            }
         }
         return lsMap;
     }
